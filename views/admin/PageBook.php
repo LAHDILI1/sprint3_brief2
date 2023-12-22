@@ -1,10 +1,14 @@
-
 <?php
-session_start();
-if(!isset($_SESSION["role_name"])||empty($_SESSION["role_name"])||$_SESSION["role_name"]!='Administrateur'){
-header('Location:http://localhost/sprint3_brief2/views/error404.php');
-}
+// session_start();
+// if(!isset($_SESSION["role_name"])||empty($_SESSION["role_name"])||$_SESSION["role_name"]!='Administrateur'){
+// header('Location:http://localhost/sprint3_brief2/views/error404.php');
+//}
 
+use App\Controllers\admin\BookController;
+require_once '../../App/Controllers/admin/BookController.php';
+require_once '../../vendor/autoload.php';
+
+$objUser = new BookController();
 
 ?>
 <!DOCTYPE html>
@@ -182,45 +186,7 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                         </div>
                     </div>
                     <!-- Table Element -->
-                    <div class="card border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                Basic Table
-                            </h5>
-                            <h6 class="card-subtitle text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ducimus,
-                                necessitatibus reprehenderit itaque!
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                        <table class="table">
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Example User Row -->
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>john@example.com</td>
-                            <td>Admin, User</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil"></span> Delete</button>
-                                <button class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-trash"></span>Edit</button>
-                            </td>
-                        </tr>
-                        <!-- Add more user rows as needed -->
-                    </tbody>
-                </table>
-                        </div>
-                    </div>
+                   
 
                     <div class="card border-0">
                         <div class="card-header">
@@ -230,6 +196,9 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                             <h6 class="card-subtitle text-muted">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ducimus,
                                 necessitatibus reprehenderit itaque!
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                      Add New Book
+                                </button>
                             </h6>
                         </div>
                         <div class="card-body">
@@ -245,58 +214,10 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                     </thead>
                     <tbody>
                         <!-- Example Book Row -->
-                        <tr>
-                            <td>1</td>
-                            <td>Sample Book</td>
-                            <td>John Author</td>
-                            <td>Fiction</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                                <button class="btn btn-sm btn-warning">Edit</button>
-                            </td>
-                        </tr>
+                        <?php
+                        $objUser->show_Book();
+                        ?>
                         <!-- Add more book rows as needed -->
-                    </tbody>
-                </table>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                Basic Table
-                            </h5>
-                            <h6 class="card-subtitle text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ducimus,
-                                necessitatibus reprehenderit itaque!
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                        <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Reservation ID</th>
-                            <th>Description</th>
-                            <th>Reservation Date</th>
-                            <th>Return Date</th>
-                            <th>Returned</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Example Reservation Row -->
-                        <tr>
-                            <td>1</td>
-                            <td>Sample Reservation</td>
-                            <td>2023-01-01</td>
-                            <td>2023-01-15</td>
-                            <td>No</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                                <button class="btn btn-sm btn-warning">Edit</button>
-                            </td>
-                        </tr>
-                        <!-- Add more reservation rows as needed -->
                     </tbody>
                 </table>
                         </div>
@@ -309,6 +230,59 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                 <i class="fa-regular fa-sun"></i>
             </a>
 
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="container mt-5">
+    <h2>Add New Book</h2>
+    <form action="../../App/Controllers/admin/add.php" method="POST" me id="bookForm">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre:</label>
+            <input type="text" class="form-control" id="genre" name="genre" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="publicationYear">Publication Year:</label>
+            <input type="date" class="form-control" id="publicationYear" name="publicationYear" required>
+        </div>
+        <div class="form-group">
+            <label for="totalCopies">Total Copies:</label>
+            <input type="number" class="form-control" id="totalCopies" name="totalCopies" required>
+        </div>
+        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>            
 
             <footer class="footer">
                         <div class="container">

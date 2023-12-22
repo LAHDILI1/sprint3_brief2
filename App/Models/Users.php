@@ -33,10 +33,13 @@ class Users{
     public function get_users(){
         try {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $this->conn->prepare("SELECT * FROM users");
+            $stmt = $this->conn->prepare("SELECT users.*, roles.name
+            FROM users
+            JOIN user_role ON users.id = user_role.users_id
+            JOIN roles ON user_role.roles_id = roles.id");
             $stmt->execute();
-            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            return $result;
+            //$result = $stmt->setFetchMode(PDO::FETCH_OBJ);
+            return $stmt;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;

@@ -1,11 +1,15 @@
-
 <?php
+
+
 session_start();
-if(!isset($_SESSION["role_name"])||empty($_SESSION["role_name"])||$_SESSION["role_name"]!='Administrateur'){
-header('Location:http://localhost/sprint3_brief2/views/error404.php');
-}
+// if(!isset($_SESSION["role_name"])||empty($_SESSION["role_name"])||$_SESSION["role_name"]!='Administrateur'){
+// header('Location:http://localhost/sprint3_brief2/views/error404.php');
+// }
 
-
+use App\Controllers\admin\UserController;
+require_once '../../../App/Controllers/admin/UserController.php';
+require_once '../../../vendor/autoload.php';
+$objUser = new UserController();
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
@@ -17,7 +21,7 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
     <title>Bootstrap Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../Public/Css/dashboardStyle.css">
+    <link rel="stylesheet" href="../../../Public/Css/dashboardStyle.css">
 </head>
 
 <body>
@@ -121,7 +125,7 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-                                <img src="../../Public/img/profile.jpg" class="avatar img-fluid rounded" alt="">
+                                <img src="../../../Public/img/profile.jpg" class="avatar img-fluid rounded" alt="">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
@@ -149,7 +153,7 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                                             </div>
                                         </div>
                                         <div class="col-6 align-self-end text-end">
-                                            <img src="../../Public/img/customer-support.jpg" class="img-fluid illustration-img"
+                                            <img src="../../../Public/img/customer-support.jpg" class="img-fluid illustration-img"
                                                 alt="">
                                         </div>
                                     </div>
@@ -196,26 +200,21 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
                         <table class="table">
                     <thead>
                         <tr>
-                            <th>User ID</th>
-                            <th>Name</th>
+                            <th>User ID </th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
                             <th>phone</th>
                             <th>Roles</th>
                             <th>Action</th>
+                            <!-- <a href="../../../App/Controllers/admin/Delete.php?UserId = $row['id']"></a> -->
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Example User Row -->
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>john@example.com</td>
-                            <td>Admin, User</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil"></span> Delete</button>
-                                <button class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-trash"></span>Edit</button>
-                            </td>
-                        </tr>
+                        <?php
+                        $objUser->show_user();
+                        ?>
                         <!-- Add more user rows as needed -->
                     </tbody>
                 </table>
@@ -348,7 +347,7 @@ header('Location:http://localhost/sprint3_brief2/views/error404.php');
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../Public/Js/dashboardScript.js"></script>
+    <script src="../../../Public/Js/dashboardScript.js"></script>
 </body>
 
 </html>
